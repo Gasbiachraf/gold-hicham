@@ -1,0 +1,151 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ink: #0b0b0b;
+  --color-onyx: #121110;
+  --color-jet: #1a1816;
+  --color-line: #2d2a25;
+  --color-smoke: #a59d8f;
+  --color-ivory: #f3eee4;
+  --color-cream: #f8f4ec;
+  --color-sand: #e9e0cf;
+  --color-umber: #4a4033;
+  --color-gold: #d4af37;
+  --color-gold-light: #f5d77a;
+  --color-gold-deep: #a8841f;
+  --color-silver: #c9ced6;
+  --color-wa: #25d366;
+
+  --font-display: 'Cinzel', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-arabic: 'IBM Plex Sans Arabic', 'Inter', system-ui, sans-serif;
+  --font-arabic-display: 'Amiri', 'IBM Plex Sans Arabic', serif;
+
+  --shadow-gold: 0 0 0 1px rgb(212 175 55 / 0.35), 0 24px 60px -24px rgb(212 175 55 / 0.35);
+  --shadow-soft: 0 30px 60px -30px rgb(0 0 0 / 0.55);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+  body {
+    @apply bg-ink font-sans text-ivory antialiased;
+  }
+  [dir='rtl'] body {
+    font-family: var(--font-arabic);
+  }
+  [dir='rtl'] .font-display {
+    font-family: var(--font-arabic-display);
+    letter-spacing: 0 !important;
+  }
+  /* The brand name always stays in Latin capitals, even on the Arabic page. */
+  [dir='rtl'] .brand {
+    font-family: var(--font-display);
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-gold;
+  }
+  ::selection {
+    @apply bg-gold text-ink;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+  .text-gold-grad {
+    background: linear-gradient(100deg, #a8841f 0%, #f5d77a 30%, #d4af37 55%, #f5d77a 75%, #a8841f 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase rtl:tracking-normal rtl:text-sm;
+  }
+  .eyebrow::before,
+  .eyebrow::after {
+    content: '';
+    @apply h-px w-8 bg-gold/60;
+  }
+  .btn {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold tracking-wide transition duration-300;
+  }
+  .btn-gold {
+    @apply text-ink shadow-gold;
+    background: linear-gradient(110deg, #a8841f, #f5d77a 45%, #d4af37 70%, #a8841f);
+    background-size: 220% 100%;
+    background-position: 0% 0;
+  }
+  .btn-gold:hover {
+    background-position: 100% 0;
+  }
+  .btn-outline {
+    @apply border border-gold/50 text-gold-light hover:border-gold hover:bg-gold/10;
+  }
+  .btn-wa {
+    @apply bg-wa text-ink hover:brightness-110;
+  }
+  .card-dark {
+    @apply rounded-2xl border border-line bg-onyx;
+  }
+  .gold-rule {
+    @apply h-px w-full;
+    background: linear-gradient(90deg, transparent, #d4af37 20%, #f5d77a 50%, #d4af37 80%, transparent);
+  }
+}
+
+/* A highlight that sweeps across the logo once in a while. */
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+.shine::after {
+  content: '';
+  position: absolute;
+  inset: -20% auto -20% -60%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgb(255 244 210 / 0.35), transparent);
+  transform: skewX(-18deg);
+  animation: shine 6s ease-in-out 1.2s infinite;
+  pointer-events: none;
+}
+@keyframes shine {
+  0% {
+    left: -60%;
+  }
+  30%,
+  100% {
+    left: 130%;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .shine::after {
+    animation: none;
+    display: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
