@@ -22,4 +22,5 @@ export function whatsappLink(text: string, number = PHONE_INTL) {
 }
 
 export const MAP_EMBED = `https://maps.google.com/maps?q=${encodeURIComponent(STORE.mapsQuery)}&z=16&output=embed`
-export const MAP_LINK = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(STORE.mapsQuery)}`
+export const MAP_LINK =
+  STORE.mapsLink || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(STORE.mapsQuery)}`
